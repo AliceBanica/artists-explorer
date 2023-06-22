@@ -1,0 +1,192 @@
+.title-app-section {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-20%, -75%);
+}
+
+.title-app-section-flex {
+    position: relative;
+}
+
+.search-artist-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.title-app {
+    text-align: center;
+    margin-top: 3.5rem;
+    margin-bottom: 0;
+    font-size: 5rem;
+    color: #322e4a;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
+    font-family: "Moirai One", cursive;
+    /* font-family: "Russo One", sans-serif; */
+    /* text-shadow: 1px 1px 2px #322e4a, 0 0 1em #322e4a, 0 0 0.3em #322e4a; */
+}
+
+.title-app > span {
+    font-size: 5rem;
+    color: #1db954;
+}
+
+.form-container {
+    display: flex;
+    width: 20rem;
+    position: relative;
+    margin-top: 2rem;
+}
+
+.artist-input {
+    border-radius: 1rem;
+    border: 1px solid rgb(160, 156, 156);
+    padding: 0.6rem 2rem;
+    font-size: 1.2rem;
+}
+
+.search-button {
+    position: absolute;
+    right: 1.3rem;
+    top: 2%;
+    height: 95%;
+    border: none;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    background-color: transparent;
+}
+.search-button > img {
+    height: 1.5rem;
+}
+
+.artist-info-section {
+    margin: 0 auto;
+    margin-top: 3rem;
+    width: 50%;
+    background-color: #221f32;
+    border-radius: 1rem;
+    padding: 1.5rem 0;
+    color: rgb(190, 187, 187);
+    box-shadow: 0px 0px 15px rgb(163, 162, 162);
+}
+
+.artist-container {
+    width: 80%;
+    margin: 1.5rem auto;
+}
+
+.artist-image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.artist-image {
+    height: 8rem;
+    border-radius: 50%;
+    box-shadow: 6px 0px 12px #544c33;
+    border: 1px solid #444061;
+}
+
+.artist-name {
+    margin-top: 2rem;
+    margin-bottom: 0.2rem;
+}
+
+.popularity-info {
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid gray;
+}
+
+.artist-info-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+p {
+    margin: 0;
+}
+
+p > span {
+    font-size: 0.7rem;
+}
+
+.spotify-link {
+    display: flex;
+    margin-top: 0.7rem;
+}
+
+.spotify-img {
+    height: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.genres-title {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.genres-list {
+    margin: 0;
+    margin-top: 0.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0;
+    font-size: 0.7rem;
+}
+
+.genres-list > li {
+    display: block;
+    background-color: #1e1c2d;
+    margin-right: 0.5rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 0.3rem;
+    margin-top: 0.4rem;
+}
+
+.albums-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.album-item {
+    display: flex;
+    background-color: #1e1c2d;
+    border-radius: 0.2rem;
+    padding: 0.5rem 0.7rem;
+    margin-bottom: 1rem;
+    transition: all 0.4s ease-in-out;
+}
+
+.album-item:hover {
+    background-color: #322f4c;
+}
+
+.album-item > a {
+    text-decoration: none;
+}
+
+.album-img {
+    width: 8rem;
+    height: 9rem;
+    border-radius: 0.2rem;
+}
+
+.album-title {
+    width: 8rem;
+    font-size: 0.8rem;
+    margin: 0;
+    margin-top: 0.2rem;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.album-songs {
+    margin-top: 0.2rem;
+    color: rgba(255, 255, 255, 0.87);
+    font-size: 0.6rem;
+}
