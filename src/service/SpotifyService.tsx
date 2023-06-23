@@ -1,14 +1,24 @@
+import moment from "moment";
+
 
 class SpotifyService {
 
-    token: string;
-    artistID: string;
+    token = "";
+    artistID = ""
     searchParams: URLSearchParams;
+    tokenExpireTime: any;
 
     constructor() {
         this.searchParams = new URLSearchParams();
-        this.token = "";
-        this.artistID = "";
+    }
+
+    verifyKey(): void {
+        const currentTime = moment();
+        if (this.token === "" || this.tokenExpireTime.isBefore(currentTime)) {
+            this.tokenExpireTime = currentTime.add(60, "minutes");
+            this.generateToken();
+            console.log("key generated")
+        }
     }
 
     async generateToken() {
@@ -67,7 +77,7 @@ class SpotifyService {
         return await fetch(url, requestOptions)
             .then(response => response.json())
             .then(data => this.artistID = data.artists.items[0].id)
-            .catch(error => console.error(error));
+            .catch(error => console.log(error));
     }
 
     async getArtistAlbums(artistName: string) {
@@ -79,13 +89,9 @@ class SpotifyService {
         });
 
         const albumsData = await albumsResponse.json();
-        // const albums = albumsData.items;
         return albumsData;
-        // Print the album names and IDs
-        // albums.forEach((album: any) => {
-        //     console.log(album.name, album.id);
-        // });
     }
+
 
 }
 
