@@ -47,18 +47,21 @@ class SpotifyService {
 
     async getArtistData(artistName: string) {
         const id = await this.getArtistID(artistName)
-        return await fetch(
-            "https://api.spotify.com/v1/artists/" + id,
-            {
-                method: "GET", // or 'PUT'
-                headers: {
-                    Authorization: `Bearer ${this.token}`,
-                },
-            }
-        )
-            .then(res => res.json())
-            .then(data => data)
-            .catch(error => console.error(error));
+        if (id !== "") {
+            return await fetch(
+                "https://api.spotify.com/v1/artists/" + id,
+                {
+                    method: "GET", // or 'PUT'
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                }
+            )
+                .then(res => res.json())
+                .then(data => data)
+                .catch(error => console.error(error));
+        }
+        return null
     }
 
     async getArtistID(artistName: string) {
@@ -76,23 +79,44 @@ class SpotifyService {
 
         return await fetch(url, requestOptions)
             .then(response => response.json())
-            .then(data => this.artistID = data.artists.items[0].id)
+            .then(data => {
+                if (data.artists.items.length != 0) {
+                    return this.artistID = data.artists.items[0].id;
+                }
+                return "";
+            })
             .catch(error => console.log(error));
     }
 
     async getArtistAlbums(artistName: string) {
         const id = await this.getArtistID(artistName);
-        const albumsResponse = await fetch(`https://api.spotify.com/v1/artists/${id}/albums`, {
-            headers: {
-                'Authorization': `Bearer ${this.token}`,
-            }
-        });
+        if (id != "") {
+            const albumsResponse = await fetch(`https://api.spotify.com/v1/artists/${id}/albums`, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                }
+            });
 
-        const albumsData = await albumsResponse.json();
-        return albumsData;
+            const albumsData = await albumsResponse.json();
+            return albumsData;
+        }
+        return null;
     }
 
+    async getArtistTopTracks(artistName: string) {
+        const id = await this.getArtistID(artistName);
+        if (id != "") {
+            const topTracksResponse = await fetch(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=RO`, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                }
+            });
 
+            const topTracks = await topTracksResponse.json();
+            return topTracks;
+        }
+        return null;
+    }
 }
 
 

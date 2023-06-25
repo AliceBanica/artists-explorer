@@ -2,19 +2,25 @@ import { useState, useEffect } from 'react';
 import spotifyImg from "./assets/spotify-img.png"
 import './App.css';
 import SpotifyService from './service/SpotifyService';
-import searchIcon from "./assets/search-btn.png"
+import searchIcon from "./assets/search-btn.png";
+import playImg from "./assets/start.png";
+import pauseImg from "./assets/pause.png";
+
 
 function App() {
   const [artistData, setArtistData] = useState<any>("");
   const [artistName, setArtistName] = useState<any>("");
   const [artistAlbums, setArtistAlbums] = useState<any>("");
+  const [topTracks, setTopTracks] = useState<any>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [isInvalidName, setIsInvalidName] = useState<boolean>(false);
+  const [isValidName, setIsValidName] = useState<boolean>(true);
+
+  const audio: any = new Audio();
+  let isAudioRunning = false;
 
   useEffect(() => {
     SpotifyService.verifyKey();
   }, [])
-
 
   const handleChange = (e: any) => {
     setArtistName(e.target.value);
@@ -24,17 +30,42 @@ function App() {
     e.preventDefault();
     const artist = await SpotifyService.getArtistData(artistName);
     const albums = await SpotifyService.getArtistAlbums(artistName);
-    // if (artist.error.message === 'invalid id') {
-    //   setArtistData("Artist not found");
-    //   setIsInvalidName(true);
-    // } else {
-    //   setArtistData(artist);
-    //   setIsInvalidName(false)
-    // }
-    setArtistData(artist);
-    setArtistAlbums(albums);
+    const topTracks = await SpotifyService.getArtistTopTracks(artistName);
+
     setIsSubmitted(true);
-    console.log(artist.error)
+    if (artist) {
+      setArtistData(artist);
+      setIsValidName(true);
+      setArtistAlbums(albums);
+      setTopTracks(topTracks);
+
+    }
+    else {
+      setArtistData(null);
+      setIsValidName(false);
+    }
+
+  }
+
+
+  function togglePlay(track: any, index: any): void {
+    const playPauseButton: HTMLButtonElement = document.getElementById("playPauseButton" + index) as HTMLButtonElement;
+    const buttonImage: HTMLImageElement = playPauseButton?.querySelector("img") as HTMLImageElement;
+    audio.src = track;
+    console.log("audip");
+    console.log(audio.paused)
+    if (isAudioRunning) {
+      audio.pause();
+      isAudioRunning = false;
+      buttonImage.src = playImg;
+      buttonImage.alt = "Play";
+    } else {
+      audio.play();
+      isAudioRunning = true;
+      buttonImage.src = pauseImg;
+      buttonImage.alt = "Pause";
+    }
+    console.log(audio);
   }
 
   return (
@@ -54,8 +85,8 @@ function App() {
         </div>
       </section>
 
-      {isSubmitted &&
-        <section className='artist-info-section'>
+      {isSubmitted ? (
+        (artistData !== "" && artistData != null) ? (<section className='artist-info-section'>
           <div className='artist-container'>
             <div className='artist-info-container'>
               <div className='artist-image-container'>
@@ -74,6 +105,25 @@ function App() {
                     })}
                   </ul>
                 </div>
+
+                <div className='top-tracks-container'>
+                  <h4 className='top-tracks-subtitle'>Top Tracks</h4>
+                  <ul className='top-tracks-list'>
+                    {topTracks.tracks.map((track: any, index: number) => {
+                      if (track.preview_url != null) {
+                        return <li key={index} className='track-item'>
+                          <div className='track-name-container'>
+                            <button onClick={() => togglePlay(track.preview_url, index)} className='button-audio' id={"playPauseButton" + index} >
+                              <img src={playImg} alt="" className='img-audio' />
+                            </button>
+                            <h3 className='track-name'>{track.name}</h3>
+                          </div>
+                        </li>
+                      }
+                    })}
+                  </ul>
+                </div>
+
                 <div className='albums-container'>
                   <h4 className='albums-subtitle'>Albums</h4>
                   <ul className='albums-list'>
@@ -91,7 +141,7 @@ function App() {
               </div>
             </div>
           </div>
-        </section>}
+        </section >) : (<section><h3>Artist not found</h3></section>)) : ""}
 
       {isSubmitted && <footer>
         <div>Results are based on the Spotify API developed by Spotify.</div>
