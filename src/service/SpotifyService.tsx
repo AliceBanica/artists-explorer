@@ -14,11 +14,14 @@ class SpotifyService {
 
     verifyKey(): void {
         const currentTime = moment();
+
         if (this.token === "" || this.tokenExpireTime.isBefore(currentTime)) {
             this.tokenExpireTime = currentTime.add(60, "minutes");
             this.generateToken();
             console.log("key generated")
         }
+        console.log(this.tokenExpireTime);
+        console.log(this.tokenExpireTime.isBefore(currentTime))
     }
 
     async generateToken() {

@@ -13,10 +13,12 @@ function App() {
   const [artistAlbums, setArtistAlbums] = useState<any>("");
   const [topTracks, setTopTracks] = useState<any>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [isValidName, setIsValidName] = useState<boolean>(true);
 
   const audio: any = new Audio();
   let isAudioRunning = false;
+  let trackName: string;
+  let playButtonIndex = -1;
+
 
   useEffect(() => {
     SpotifyService.verifyKey();
@@ -35,38 +37,44 @@ function App() {
     setIsSubmitted(true);
     if (artist) {
       setArtistData(artist);
-      setIsValidName(true);
       setArtistAlbums(albums);
       setTopTracks(topTracks);
 
     }
     else {
       setArtistData(null);
-      setIsValidName(false);
     }
 
   }
 
-
-  function togglePlay(track: any, index: any): void {
+  function togglePlay(track: any, index: number): void {
     const playPauseButton: HTMLButtonElement = document.getElementById("playPauseButton" + index) as HTMLButtonElement;
     const buttonImage: HTMLImageElement = playPauseButton?.querySelector("img") as HTMLImageElement;
-    audio.src = track;
-    console.log("audip");
-    console.log(audio.paused)
-    if (isAudioRunning) {
+
+    if (isAudioRunning && trackName === track) {
       audio.pause();
       isAudioRunning = false;
       buttonImage.src = playImg;
       buttonImage.alt = "Play";
     } else {
+      if (playButtonIndex != -1) {
+        const oldPlayPauseButton: HTMLButtonElement = document.getElementById("playPauseButton" + playButtonIndex) as HTMLButtonElement;
+        const oldButtonImage: HTMLImageElement = oldPlayPauseButton?.querySelector("img") as HTMLImageElement;
+        oldButtonImage.src = playImg;
+        oldButtonImage.alt = "Play";
+      }
+      audio.pause();
+      audio.src = track;
       audio.play();
       isAudioRunning = true;
+
       buttonImage.src = pauseImg;
       buttonImage.alt = "Pause";
+      trackName = track;
+      playButtonIndex = index;
     }
-    console.log(audio);
   }
+
 
   return (
     <>
@@ -121,6 +129,18 @@ function App() {
                         </li>
                       }
                     })}
+                    {/* {topTracks.tracks.map((track: any, index: number) => {
+                      if (track.preview_url != null) {
+                        return <li key={index} className='track-item'>
+                          <div className='track-name-container'>
+                            <button onClick={() => togglePlay(track.preview_url, index)} className='button-audio' id={"playPauseButton" + index} >
+                              <img src={playImg} alt="" className='img-audio' />
+                            </button>
+                            <h3 className='track-name'>{track.name}</h3>
+                          </div>
+                        </li>
+                      }
+                    })} */}
                   </ul>
                 </div>
 
