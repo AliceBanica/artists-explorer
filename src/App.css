@@ -6,7 +6,7 @@
 }
 
 .title-app-section-flex {
-    position: relative;
+    display: block;
 }
 
 .search-artist-container {
@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
+    margin-top: 1rem;
 }
 
 .no-search-artist {
@@ -51,7 +51,7 @@
 .artist-input {
     border-radius: 1rem;
     border: 1px solid rgb(160, 156, 156);
-    padding: 0.6rem 2rem;
+    padding: 0.6rem 3rem 0.6rem 1rem;
     font-size: 1.2rem;
 }
 
@@ -308,4 +308,36 @@ footer > div {
     left: 50%;
     transform: translate(-50%);
     color: #322e4a;
+}
+
+.alert {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    right: 2rem;
+    top: 2rem;
+
+    background-color: #fbf0da;
+    color: #956910;
+    border-left: 6px solid #fb9609;
+    padding: 10px 16px 10px 11px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    animation: fade 0.3s ease-in-out forwards;
+}
+
+.alert-image {
+    width: 1.5rem;
+    padding-right: 0.6rem;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

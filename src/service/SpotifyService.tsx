@@ -64,11 +64,11 @@ class SpotifyService {
                 .then(data => data)
                 .catch(error => console.error(error));
         }
-        return null
+        return null;
     }
 
     async getArtistID(artistName: string) {
-        const url = new URL('https://api.spotify.com/v1/search')
+        const url = new URL('https://api.spotify.com/v1/search');
         url.searchParams.append("q", artistName);
         url.searchParams.append("type", "artist");
         url.searchParams.append("limit", "1");
@@ -80,15 +80,18 @@ class SpotifyService {
             }
         };
 
-        return await fetch(url, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                if (data.artists.items.length != 0) {
-                    return this.artistID = data.artists.items[0].id;
-                }
-                return "";
-            })
-            .catch(error => console.log(error));
+        if (artistName != "") {
+            return await fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.artists.items.length != 0) {
+                        return this.artistID = data.artists.items[0].id;
+                    }
+                    return "";
+                })
+                .catch(error => console.log(error));
+        }
+        return "";
     }
 
     async getArtistAlbums(artistName: string) {

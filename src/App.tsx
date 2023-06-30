@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import spotifyImg from "./assets/spotify-img.png"
 import './App.css';
 import SpotifyService from './service/SpotifyService';
 import searchIcon from "./assets/search-btn.png";
 import playImg from "./assets/start.png";
 import pauseImg from "./assets/pause.png";
+import alertImg from "./assets/alert.png";
 
 
 function App() {
@@ -13,16 +14,24 @@ function App() {
   const [artistAlbums, setArtistAlbums] = useState<any>("");
   const [topTracks, setTopTracks] = useState<any>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const audio: any = new Audio();
   let isAudioRunning = false;
   let trackName: string;
   let playButtonIndex = -1;
 
-
   useEffect(() => {
     SpotifyService.verifyKey();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (showAlert) {
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+  }, [showAlert])
 
   const handleChange = (e: any) => {
     setArtistName(e.target.value);
@@ -39,12 +48,11 @@ function App() {
       setArtistData(artist);
       setArtistAlbums(albums);
       setTopTracks(topTracks);
-
     }
     else {
       setArtistData(null);
+      setShowAlert(true);
     }
-
   }
 
   function togglePlay(track: any, index: number): void {
@@ -75,12 +83,15 @@ function App() {
     }
   }
 
-
   return (
     <>
-      <section className={isSubmitted ? "title-app-section-flex" : 'title-app-section'}>
+
+      <section className={isSubmitted ?
+        ((artistData !== "" && artistData != null) ? 'title-app-section-flex' : "title-app-section") : "title-app-section"}>
+
         <p className='title-app'>Explore your favourite <span>artist</span></p>
         <div className={isSubmitted ? "no-search-artist" : "search-artist-container"}>
+
           <form onSubmit={handleSubmit} className='search-form'>
             <div className='form-container'>
               <input type="text" className='artist-input' id='name' name="name" onChange={handleChange} value={artistName} placeholder='Artist name' />
@@ -89,12 +100,15 @@ function App() {
               </button>
             </div>
           </form>
-          {isSubmitted ? "" : <span className='short-info'>Results are based on the Spotify API developed by Spotify.</span>}
+          {isSubmitted ?
+            ((artistData !== "" && artistData != null) ? '' : <span className='short-info'>Results are based on the Spotify API developed by Spotify.
+            </span>) : <span className='short-info'>Results are based on the Spotify API developed by Spotify.
+            </span>}
         </div>
       </section>
 
       {isSubmitted ? (
-        (artistData !== "" && artistData != null) ? (<section className='artist-info-section'>
+        (artistData !== "" && artistData != null) ? <section className='artist-info-section'>
           <div className='artist-container'>
             <div className='artist-info-container'>
               <div className='artist-image-container'>
@@ -129,18 +143,6 @@ function App() {
                         </li>
                       }
                     })}
-                    {/* {topTracks.tracks.map((track: any, index: number) => {
-                      if (track.preview_url != null) {
-                        return <li key={index} className='track-item'>
-                          <div className='track-name-container'>
-                            <button onClick={() => togglePlay(track.preview_url, index)} className='button-audio' id={"playPauseButton" + index} >
-                              <img src={playImg} alt="" className='img-audio' />
-                            </button>
-                            <h3 className='track-name'>{track.name}</h3>
-                          </div>
-                        </li>
-                      }
-                    })} */}
                   </ul>
                 </div>
 
@@ -161,11 +163,18 @@ function App() {
               </div>
             </div>
           </div>
-        </section >) : (<section><h3>Artist not found</h3></section>)) : ""}
+        </section > : (showAlert &&
+          <div className='alert'>
+            <img className='alert-image' src={alertImg} alt="" />
+            <span>Didn't find anything! Please enter a valid name. </span>
+          </div>
+        )) : ""}
 
-      {isSubmitted && <footer>
-        <div>Results are based on the Spotify API developed by Spotify.</div>
-      </footer>}
+
+      {isSubmitted ?
+        ((artistData !== "" && artistData != null) ? <footer>
+          <div>Results are based on the Spotify API developed by Spotify.</div>
+        </footer> : "") : ""}
     </>
   );
 }
