@@ -6,6 +6,7 @@ import searchIcon from "./assets/search-btn.png";
 import playImg from "./assets/start.png";
 import pauseImg from "./assets/pause.png";
 import alertImg from "./assets/alert.png";
+import wave from "./assets/wavy.png";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
   let playButtonIndex = -1;
 
   useEffect(() => {
-    SpotifyService.verifyKey();
+    SpotifyService.generateToken();
   }, []);
 
   useEffect(() => {
@@ -85,7 +86,6 @@ function App() {
 
   return (
     <>
-
       <section className={isSubmitted ?
         ((artistData !== "" && artistData != null) ? 'title-app-section-flex' : "title-app-section") : "title-app-section"}>
 
@@ -175,6 +175,16 @@ function App() {
         ((artistData !== "" && artistData != null) ? <footer>
           <div>Results are based on the Spotify API developed by Spotify.</div>
         </footer> : "") : ""}
+
+
+      <div className='background-elements'>
+        <img className='wave-img' src={wave} alt="" />
+        <div className='bg-circle-1'></div>
+        <div className='bg-circle-2'></div>
+        <div className='line line-1'></div>
+        <div className='line line-2'></div>
+        <div className='line line-3'></div>
+      </div>
     </>
   );
 }

@@ -7,6 +7,7 @@
 
 .title-app-section-flex {
     display: block;
+    margin: 0 2rem;
 }
 
 .search-artist-container {
@@ -340,4 +341,82 @@ footer > div {
     100% {
         opacity: 1;
     }
+}
+
+.background-elements {
+    position: fixed;
+    z-index: -5;
+}
+
+.wave-img {
+    position: fixed;
+    bottom: 0;
+    height: 15rem;
+    z-index: -5;
+}
+
+.bg-circle-1 {
+    position: fixed;
+    height: 25rem;
+    width: 25rem;
+    right: -4rem;
+    top: 30rem;
+    background: rgb(29, 7, 127);
+    background: linear-gradient(
+        163deg,
+        rgba(29, 7, 127, 1) 0%,
+        rgba(106, 98, 204, 1) 31%,
+        rgba(115, 115, 219, 1) 49%,
+        rgba(112, 118, 209, 1) 64%,
+        rgba(52, 71, 162, 1) 100%
+    );
+
+    border-radius: 50%;
+    opacity: 0.2;
+}
+
+.bg-circle-2 {
+    position: fixed;
+    border: 3px solid rgb(238, 225, 225);
+    height: 17rem;
+    width: 17rem;
+    right: 7rem;
+    top: 27rem;
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0px 0px 15px rgb(163, 162, 162);
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.line {
+    position: fixed;
+    top: 0;
+    height: 2rem;
+    background: linear-gradient(to right, red, purple);
+    border-radius: 5rem;
+    rotate: 43deg;
+    opacity: 0.2;
+    z-index: -5;
+}
+
+.line-1 {
+    width: 40rem;
+}
+
+.line-2 {
+    left: 3rem;
+    width: 25rem;
+}
+
+.line-3 {
+    left: 6rem;
+    width: 10rem;
 }

@@ -7,27 +7,29 @@ class SpotifyService {
     artistID = ""
     searchParams: URLSearchParams;
     tokenExpireTime: any;
+    client_id = "64708c81e2514718a448a519ac3738d6";
+    client_secret = "833b132ddec941e9945054a8656171df";
 
     constructor() {
         this.searchParams = new URLSearchParams();
+        localStorage.setItem('token', "");
     }
 
     verifyKey(): void {
         const currentTime = moment();
+        const token2 = localStorage.getItem("token");
 
-        if (this.token === "" || this.tokenExpireTime.isBefore(currentTime)) {
+        if (token2 === "" || this.tokenExpireTime.isBefore(currentTime)) {
             this.tokenExpireTime = currentTime.add(60, "minutes");
             this.generateToken();
             console.log("key generated")
         }
-        console.log(this.tokenExpireTime);
-        console.log(this.tokenExpireTime.isBefore(currentTime))
     }
 
     async generateToken() {
         this.searchParams.append("grant_type", "client_credentials");
-        this.searchParams.append("client_id", "64708c81e2514718a448a519ac3738d6");
-        this.searchParams.append("client_secret", "833b132ddec941e9945054a8656171df");
+        this.searchParams.append("client_id", this.client_id);
+        this.searchParams.append("client_secret", this.client_secret);
 
         const requestOptions = {
             method: 'POST',
