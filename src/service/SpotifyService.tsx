@@ -1,5 +1,3 @@
-import moment from "moment";
-
 
 class SpotifyService {
 
@@ -7,23 +5,13 @@ class SpotifyService {
     artistID = ""
     searchParams: URLSearchParams;
     tokenExpireTime: any;
-    client_id = "64708c81e2514718a448a519ac3738d6";
-    client_secret = "833b132ddec941e9945054a8656171df";
+
+    //Client ID and Client Secret can be obtained at https://developer.spotify.com/dashboard
+    client_id = "SPOTIFY_CLIENT_ID";
+    client_secret = "SPOTIFY_CLIENT_SECRET";
 
     constructor() {
         this.searchParams = new URLSearchParams();
-        localStorage.setItem('token', "");
-    }
-
-    verifyKey(): void {
-        const currentTime = moment();
-        const token2 = localStorage.getItem("token");
-
-        if (token2 === "" || this.tokenExpireTime.isBefore(currentTime)) {
-            this.tokenExpireTime = currentTime.add(60, "minutes");
-            this.generateToken();
-            console.log("key generated")
-        }
     }
 
     async generateToken() {
@@ -56,7 +44,7 @@ class SpotifyService {
             return await fetch(
                 "https://api.spotify.com/v1/artists/" + id,
                 {
-                    method: "GET", // or 'PUT'
+                    method: "GET",
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },

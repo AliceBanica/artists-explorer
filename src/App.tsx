@@ -72,7 +72,6 @@ function App() {
         oldButtonImage.src = playImg;
         oldButtonImage.alt = "Play";
       }
-      audio.pause();
       audio.src = track;
       audio.play();
       isAudioRunning = true;
